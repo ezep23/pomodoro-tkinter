@@ -29,19 +29,36 @@ inputCounter.pack()
 
 def counter_pomodoros():
     texto = inputCounter.get()
-    textCounter.config(text="El numero de pomodoros elegidos son: " + texto)
-
-    submitButton.destroy()
-    inputCounter.destroy()
+    if texto == 0 or texto == "":
+        inputCounter.config(fg="red")
+        submitButton.config(text="Reintentar", command=counter_pomodoros)
+    elif isinstance(texto, str): 
+        inputCounter.config(fg="red")
+        submitButton.config(text="Reintentar", command=counter_pomodoros)
+    else:
+        textCounter.config(text="El numero de pomodoros elegidos son: " + texto)
+        submitButton.destroy()
+        inputCounter.destroy()
 
 submitButton = tk.Button(root, text="Enviar", command=counter_pomodoros)
 submitButton.pack()
 
 # init timer
+def run_timer():
 
-initLabel = tk.Label(root, text= "¿Quieres comenzar?")
-initButton = tk.Button(root, text="Iniciar", command=runTimer)
+    root.iconify()
 
-def 
+    timerWindow = tk.Toplevel(root)
+    timerWindow.title("Pomodoro")
+    timerWindow.geometry("200x200+1150+0")
+
+    label = tk.Label(timerWindow, text="¡Soy una cuenta regresiva!")
+    label.pack(pady=20)
+
+initLabel = tk.Label(root, text="¿Quieres comenzar?")
+initLabel.pack()
+initButton = tk.Button(root, text="Iniciar", command=run_timer)
+initButton.pack()
+
 
 root.mainloop()
