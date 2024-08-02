@@ -19,13 +19,29 @@ root.title("Pomodoro")
 
 
 # Content root
-label = tk.Label(root, text="¡Bienvenido a la aplicación! ")
-label.pack(pady=20)
+mainText = tk.Label(root, text="¡Bienvenido a la aplicación! ")
+mainText.pack(pady=20)
 
-counter = tk.Frame(root)
-counter.configure(width=200, height=200, bg="red")
-counter.pack()
+textCounter = tk.Label(root, text="Ingrese el numero de pomodoros a realizar: ")
+textCounter.pack()
+inputCounter = tk.Entry(root)
+inputCounter.pack()
 
+def counter_pomodoros():
+    texto = inputCounter.get()
+    textCounter.config(text="El numero de pomodoros elegidos son: " + texto)
 
+    submitButton.destroy()
+    inputCounter.destroy()
+
+submitButton = tk.Button(root, text="Enviar", command=counter_pomodoros)
+submitButton.pack()
+
+# init timer
+
+initLabel = tk.Label(root, text= "¿Quieres comenzar?")
+initButton = tk.Button(root, text="Iniciar", command=runTimer)
+
+def 
 
 root.mainloop()
