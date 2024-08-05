@@ -3,9 +3,7 @@ try:
 except ImportError:
     import tkinter as tk  #Python 3.0
 
-#Icono
 from PIL import Image, ImageTk
-
 from tkinter import messagebox
 from threading import Thread, Event
 import time
@@ -13,7 +11,14 @@ import time
 class PomodoroApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Pomodoro Timer")
+        self.root.title("Pomodoro app")
+        self.root.resizable(False, False)
+        self.root.geometry("300x150+500+200")
+        
+        # Icon
+        icon = Image.open('./img/icon.png')  
+        icon_tk = ImageTk.PhotoImage(icon)
+        self.root.iconphoto(False, icon_tk)
         
         # Variables
         self.pomodoros = tk.IntVar(value=1)
@@ -31,13 +36,13 @@ class PomodoroApp:
         settings_frame = tk.Frame(self.root)
         settings_frame.pack(padx=10, pady=10)
         
-        tk.Label(settings_frame, text="Number of Pomodoros:").grid(row=0, column=0, padx=5, pady=5)
+        tk.Label(settings_frame, text="Numero de Pomodoros:").grid(row=0, column=0, padx=5, pady=5)
         tk.Entry(settings_frame, textvariable=self.pomodoros).grid(row=0, column=1, padx=5, pady=5)
         
-        tk.Label(settings_frame, text="Duration (minutes):").grid(row=1, column=0, padx=5, pady=5)
+        tk.Label(settings_frame, text="Duración (minutos):").grid(row=1, column=0, padx=5, pady=5)
         tk.Entry(settings_frame, textvariable=self.duration).grid(row=1, column=1, padx=5, pady=5)
         
-        tk.Button(settings_frame, text="Start", command=self.start_timer).grid(row=2, columnspan=2, pady=10)
+        tk.Button(settings_frame, text="Iniciar", command=self.start_timer).grid(row=2, columnspan=2, pady=10)
         
     def start_timer(self):
         num_pomodoros = self.pomodoros.get()
@@ -65,19 +70,23 @@ class PomodoroApp:
                 break
         
         if not self.stop_event.is_set():
-            messagebox.showinfo("Pomodoro Complete", "All pomodoros are completed!")
+            messagebox.showinfo("Pomodoro completado", "Todos los pomodoros completados!")
         
     def show_timer_popup(self, time_str):
         if not hasattr(self, 'popup'):
             self.popup = tk.Toplevel(self.root)
-            self.popup.title("Pomodoro Timer")
-            self.popup.geometry("200x100")
+            self.popup.title("Pomodoro")
+            self.popup.geometry("200x100+1150+0")
+
+            icon = Image.open('./img/icon.png')  
+            icon_tk = ImageTk.PhotoImage(icon)
+            self.popup.iconphoto(False, icon_tk)
             
             self.time_label = tk.Label(self.popup, text=time_str, font=("Helvetica", 24))
             self.time_label.pack(pady=10)
             
-            tk.Button(self.popup, text="Pause", command=self.pause_timer).pack(side=tk.LEFT, padx=5)
-            tk.Button(self.popup, text="Stop", command=self.stop_timer).pack(side=tk.RIGHT, padx=5)
+            tk.Button(self.popup, text="Parar", command=self.pause_timer).pack(side=tk.LEFT, padx=5)
+            tk.Button(self.popup, text="Terminar", command=self.stop_timer).pack(side=tk.RIGHT, padx=5)
             
             self.popup.protocol("WM_DELETE_WINDOW", self.on_popup_close)
         else:
@@ -88,7 +97,7 @@ class PomodoroApp:
         button_text = "Resume" if self.is_paused else "Pause"
         for widget in self.popup.winfo_children():
             if widget.cget("text") == button_text:
-                widget.config(text="Pause" if not self.is_paused else "Resume")
+                widget.config(text="Pausa" if not self.is_paused else "Seguir")
         
     def stop_timer(self):
         self.stop_event.set()
