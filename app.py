@@ -5,60 +5,50 @@ try:
 except ImportError:
     import tkinter as tk  #Python 3.0
 
-
-root = tk.Tk()
-
 # Icon
 icon = Image.open('./img/icon.png')  
-icon_tk = ImageTk.PhotoImage(icon)
 
-root.geometry("300x300+500+200")
-root.resizable(False,False)
-root.iconphoto(True, icon_tk)
-root.title("Pomodoro")
+class menu(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Pomodoro")
+        self.geometry("300x300+500+200")
+        self.icon_tk = ImageTk.PhotoImage(icon)
+        self.resizable(False,False)
 
+        self.etiqueta = tk.Label(self, text="¡Bienvenido a la aplicación! ") 
+        self.etiqueta.pack(pady=20)
 
-# Content root
-mainText = tk.Label(root, text="¡Bienvenido a la aplicación! ")
-mainText.pack(pady=20)
+        self.textoPomodoros = tk.Label(self, text="Ingrese el numero de pomodoros a realizar: ")
+        self.textoPomodoros.pack()
+        
+        self.inputPomodoros = tk.Entry(self)
+        self.inputPomodoros.pack()
 
-textCounter = tk.Label(root, text="Ingrese el numero de pomodoros a realizar: ")
-textCounter.pack()
-inputCounter = tk.Entry(root)
-inputCounter.pack()
-
-def counter_pomodoros():
-    texto = inputCounter.get()
-    if texto == 0 or texto == "":
-        inputCounter.config(fg="red")
-        submitButton.config(text="Reintentar", command=counter_pomodoros)
-    elif isinstance(texto, str): 
-        inputCounter.config(fg="red")
-        submitButton.config(text="Reintentar", command=counter_pomodoros)
-    else:
-        textCounter.config(text="El numero de pomodoros elegidos son: " + texto)
-        submitButton.destroy()
-        inputCounter.destroy()
-
-submitButton = tk.Button(root, text="Enviar", command=counter_pomodoros)
-submitButton.pack()
-
-# init timer
-def run_timer():
-
-    root.iconify()
-
-    timerWindow = tk.Toplevel(root)
-    timerWindow.title("Pomodoro")
-    timerWindow.geometry("200x200+1150+0")
-
-    label = tk.Label(timerWindow, text="¡Soy una cuenta regresiva!")
-    label.pack(pady=20)
-
-initLabel = tk.Label(root, text="¿Quieres comenzar?")
-initLabel.pack()
-initButton = tk.Button(root, text="Iniciar", command=run_timer)
-initButton.pack()
+        entrada = self.inputPomodoros.get()
+        
+        if entrada == 0 or entrada == "":
+            self.inputPomodoros.config(fg="red")
+            submitButton.config(text="Reintentar", command=counter_pomodoros)
+        elif isinstance(texto, str): 
+            self.inputPomodoros.config(fg="red")
+            submitButton.config(text="Reintentar", command=counter_pomodoros)
+        else:
+            self.textoPomodoros.config(text="El numero de pomodoros elegidos son: " + entrada)
+            submitButton.destroy()
+            inputCounter.destroy()
 
 
-root.mainloop()
+    def cronometro_pomodoros(self):
+        cronometro_pomodoros = pomodoro(self)
+        cronometro_pomodoros.grab_set()
+
+class pomodoro(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.title("Pomodoro")
+        self.geometry("200x200+1150+0")
+
+if __name__ == "__main__":
+    app = menu()
+    app.mainloop()
