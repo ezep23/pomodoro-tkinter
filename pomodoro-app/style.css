@@ -1,0 +1,52 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+header nav ul{
+    display: flex;
+    list-style: none;
+    gap: 5px;
+}
+
+main{
+    display: grid;
+    place-items: center;
+    margin: 5%;
+}
+
+section{
+    padding: 20px;
+    color: #fff;
+}
+
+
+#containerTimer{
+    background-color: #000;
+
+}
+
+#timer {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+footer{
+    bottom: 0;
+    text-align: center;
+    padding: 20px;
+}
