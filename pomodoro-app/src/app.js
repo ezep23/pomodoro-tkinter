@@ -1,6 +1,10 @@
 import html from './app.html?raw';
+import { createClient } from 'pexels';
+
+const client = createClient(import.meta.env.VITE_PEXELS_API_KEY);
 
 const ElementIDs = {
+    background: '#main',
     display: '#timer',
     start: '#startButton',
     reset: '#resetButton'
@@ -13,6 +17,22 @@ const ElementIDs = {
 */
 
 export const App = ( id ) => {
+
+    const switchBackground = () => {
+        const random = Math.random();
+        
+        try {
+            // const imageInfo = fetch('link')
+
+            client.photos.show({ id: random })
+            .then(response => response.json())
+            .then(data => console.log(data.name));
+
+            background.setAttribute('style', `background-image: url(${image})`);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const initTimer = () => {
         timer = setInterval(() => {
@@ -60,6 +80,7 @@ export const App = ( id ) => {
     })();
 
     // Referencias
+    const background = document.querySelector( ElementIDs.background)
     const display = document.querySelector( ElementIDs.display );
     const start = document.querySelector( ElementIDs.start );
     const reset = document.querySelector( ElementIDs.reset ); 
@@ -74,6 +95,7 @@ export const App = ( id ) => {
     start.addEventListener('click', () => {
         start.disabled = true;
         initTimer();
+        switchBackground();
     });
 
     reset.addEventListener('click', resetTimer);
