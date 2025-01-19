@@ -1,6 +1,10 @@
 import html from './app.html?raw';
+import { createClient } from 'pexels';
+
+const client = createClient(import.meta.env.VITE_PEXELS_API_KEY);
 
 const ElementIDs = {
+    background: '#main',
     display: '#timer',
     start: '#startButton',
     reset: '#resetButton'
@@ -13,6 +17,20 @@ const ElementIDs = {
 */
 
 export const App = ( id ) => {
+
+    const fetchImageBackground = async() => {
+        const numbersArrayRandom = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10));
+        let randomSixNumbers = numbersArrayRandom.toString().replaceAll(',', '');
+
+        const ID = randomSixNumbers;
+
+        client.photos.show({ id: ID }).then(photo => {
+            background.setAttribute('style', `background-image: url(${photo.src.original})`)
+            document.querySelector('#info-author').innerHTML = `autor: ${photo.photographer} - <a href="${photo.photographer_id}">ir al perfil</a>`
+        }).catch(error => {
+            console.error('Error al obtener la imagen:', error);
+        });
+    } 
 
     const initTimer = () => {
         timer = setInterval(() => {
@@ -35,7 +53,7 @@ export const App = ( id ) => {
                 initTimer(); // Inicia el siguiente ciclo
             }
         }, 1000);
-    }
+    };
     
 
     const render = (seconds) => {
@@ -60,6 +78,7 @@ export const App = ( id ) => {
     })();
 
     // Referencias
+    const background = document.querySelector( ElementIDs.background)
     const display = document.querySelector( ElementIDs.display );
     const start = document.querySelector( ElementIDs.start );
     const reset = document.querySelector( ElementIDs.reset ); 
@@ -74,6 +93,7 @@ export const App = ( id ) => {
     start.addEventListener('click', () => {
         start.disabled = true;
         initTimer();
+        fetchImageBackground();
     });
 
     reset.addEventListener('click', resetTimer);
