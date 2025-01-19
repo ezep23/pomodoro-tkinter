@@ -18,21 +18,19 @@ const ElementIDs = {
 
 export const App = ( id ) => {
 
-    const switchBackground = () => {
-        const random = Math.random();
-        
-        try {
-            // const imageInfo = fetch('link')
+    const fetchImageBackground = async() => {
+        const numbersArrayRandom = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10));
+        let randomSixNumbers = numbersArrayRandom.toString().replaceAll(',', '');
 
-            client.photos.show({ id: random })
-            .then(response => response.json())
-            .then(data => console.log(data.name));
+        const ID = randomSixNumbers;
 
-            background.setAttribute('style', `background-image: url(${image})`);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+        client.photos.show({ id: ID }).then(photo => {
+            background.setAttribute('style', `background-image: url(${photo.src.original})`)
+            document.querySelector('#info-author').innerHTML = `autor: ${photo.photographer} - <a href="${photo.photographer_id}">ir al perfil</a>`
+        }).catch(error => {
+            console.error('Error al obtener la imagen:', error);
+        });
+    } 
 
     const initTimer = () => {
         timer = setInterval(() => {
@@ -55,7 +53,7 @@ export const App = ( id ) => {
                 initTimer(); // Inicia el siguiente ciclo
             }
         }, 1000);
-    }
+    };
     
 
     const render = (seconds) => {
@@ -95,7 +93,7 @@ export const App = ( id ) => {
     start.addEventListener('click', () => {
         start.disabled = true;
         initTimer();
-        switchBackground();
+        fetchImageBackground();
     });
 
     reset.addEventListener('click', resetTimer);
