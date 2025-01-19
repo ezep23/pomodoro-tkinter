@@ -1,8 +1,10 @@
-# App Pomodoro
-Intentando crear una aplicación de escritorio pomodoro con python y tkinter
+# Pomodoro App 
 
-## Capturas
-Proximamente 
+Una aplicación de pomodoro con imagenes aleatorias cada vez que se le dá click al empezar utilizando la API de Pexels
 
-![App Screenshot](img/screen.png)
+### Screenshots
+
+![App Screenshot](./pomodoro-app/public/screenshots/screen1)
+
+![App Screenshot](./pomodoro-app/public/screenshots/screen2.jpeg)
 
